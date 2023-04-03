@@ -1,0 +1,5 @@
+(type-of-c-reserved-word "public") ;; retorna "Access modifier"
+(type-of-c-reserved-word "double") ;; retorna "Data type"
+(type-of-c-reserved-word "if") ;; retorna "Control flow statement"
+(type-of-c-reserved-word "interface") ;; retorna "Class or struct keyword"
+(type-of-c-reserved-word "+") ;; retorna "Operator"
