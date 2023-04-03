@@ -2,19 +2,53 @@
 
 #lang racket
 
-;;Array iwth reserved words in C#
-(define c-reserved-words 
-  '("abstract" "as" "base" "bool" "break" "byte" "case" "catch" "char" "checked" "class" "const" "continue" "decimal" "default" "delegate" "do" "double" "else" "enum" "event" "explicit" "extern" "false" "finally" "fixed" "float" "for" "foreach" "goto" "if" "implicit" "in" "int" "interface" "internal" "is" "lock" "long" "namespace" "new" "null" "object" "operator" "out" "override" "params" "private" "protected" "public" "readonly" "ref" "return" "sbyte" "sealed" "short" "sizeof" "stackalloc" "static" "string" "struct" "switch" "this" "throw" "true" "try" "typeof" "uint" "ulong" "unchecked" "unsafe" "ushort" "using" "virtual" "void" "volatile" "while"))
+(define csharp-access-modifiers
+  '("public" "private" "protected" "internal"))
+
+(define csharp-data-types
+  '("bool" "byte" "char" "decimal" "double" "float" "int" "long" "object" "sbyte" "short" "string" "uint" "ulong" "ushort" "void"))
+
+(define csharp-control-flow-statements
+  '("if" "else" "switch" "case" "default" "while" "do" "for" "foreach" "in" "break" "continue" "return" "goto"))
+
+(define csharp-classes-and-structs
+  '("class" "struct" "interface" "new")) 
+
+(define csharp-operators
+  '("+" "-" "*" "/" "%" "++" "--" "==" "!=" ">" "<" ">=" "<=" "&&" "||" "!" "&" "|" "^" "<<" ">>" "~" "=>" "?."))
+
+(define csharp-exception-handling
+  '("try" "catch" "finally" "throw"))
+
+(define csharp-attributes
+  '("attribute" "Obsolete" "Serializable"))
+
+(define csharp-miscellaneous
+  '("using" "namespace" "delegate" "event" "as" "is" "sizeof" "typeof" "unchecked"))
 
 
-;;Function that returns true if the word is a reserved word in C#
-
-(define is-c-reserved-word? 
+(define type-of-c-reserved-word
   (lambda (word)
     (cond
-      [(member word c-reserved-words) #t]
+      [(member word csharp-access-modifiers) 'access-modifier]
+      [(member word csharp-data-types) 'data-type]
+      [(member word csharp-control-flow-statements) 'control-flow-statement]
+      [(member word csharp-classes-and-structs) 'class-or-struct-keyword]
+      [(member word csharp-operators) 'operator]
+      [(member word csharp-exception-handling) 'exception-handling-keyword]
+      [(member word csharp-attributes) 'attribute]
+      [(member word csharp-miscellaneous) 'miscellaneous-keyword]
       [else #f])))
 
+
+
 ;; ejemplo de uso
-(is-c-reserved-word? "null") ;; retorna #t
-(is-c-reserved-word? "foobar") ;; retorna #f
+(type-of-c-reserved-word "public") ;; retorna access-modifier
+(type-of-c-reserved-word "double") ;; retorna data-type
+(type-of-c-reserved-word "if") ;; retorna control-flow-statement
+(type-of-c-reserved-word "interface") ;; retorna  class-or-struct-keyword
+(type-of-c-reserved-word "+") ;; retorna operator
+(type-of-c-reserved-word "try") ;; retorna exception-handling-keyword
+(type-of-c-reserved-word "Obsolete") ;; retorna attribute
+(type-of-c-reserved-word "using") ;; retorna miscellaneous-keyword
+(type-of-c-reserved-word "False Test") ;; retorna #f
