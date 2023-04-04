@@ -1,7 +1,65 @@
-;;Author: DIego Sandoval
+;;Author: Diego Sandoval
 
 #lang racket
+(require 2htdp/batch-io)
 
+;;Input and Output filenames
+(define input-file "test.cpp")
+(define output-file "outputFinal.html")
+
+;;Html header
+(define html-header "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>C# File with syntax Higlight</title> </head> <body>")
+
+;;Html footer
+(define html-footer "</body> </html>")
+
+
+;;Funtions that opens an input file, reads it character by character,
+;; returning it in a list of characters.
+(define file->list-of-chars
+  (lambda (filename)
+    (flatten
+     (map string->list
+          (read-1strings filename)))))
+
+
+;;function converts a list of characters to a list of strings.
+(define list-of-chars->list-of-strings
+  (lambda (loc aux result)
+    (cond
+      [(empty? loc) result]
+      [(char-whitespace? (car loc))
+       (list-of-chars->list-of-strings (cdr loc)
+                                       '()
+                                       (cons
+                                        (list->string
+                                         (cons (car loc) '()))
+                                        (cons
+                                         (list->string aux)
+                                         result)))]
+      [(char-punctuation? (car loc))
+       (list-of-chars->list-of-strings (cdr loc)
+                                       '()
+                                       (cons
+                                        (list->string
+                                         (cons (car loc) '()))
+                                        (cons
+                                         (list->string aux)
+                                         result)))]
+      [else
+       (list-of-chars->list-of-strings (cdr loc)
+                                       (append aux (cons (car loc) '()))
+                                       result)])))
+
+;;function that opens an input file, reads it character by character,
+;; returning it in a list of string.
+(define file->list-of-strings
+  (lambda (filename)
+    (reverse
+     (list-of-chars->list-of-strings
+      (file->list-of-chars input-file) '() '()))))
+
+;;Function that checks if a word is a c# reserved word, returning a span tag with the class of the reserved word
 (define (type-of-c-reserved-word word)
   (cond
     ;;access modifiers
@@ -33,17 +91,29 @@
    [(regexp-match? #px"\\b(using|namespace|class|struct|interface|delegate|event|object|typeof|void|checked|unchecked|unsafe|operator|implicit|explicit|this|base|params|in|out|ref|is|as|sizeof|stackalloc|fixed|lock|from|where|select|group|into|orderby|join|let|equals|by)\\b" word) (string-append"<span class='miscellaneous'>" word "</span>")]
 
     ;;Not a C# reserved word
-  [else ""]))
+  [else (string-append "<span>" word "</span>")]))
 
-;; ejemplo de uso
-(type-of-c-reserved-word "public") ;; retorna "Access modifier"
-(type-of-c-reserved-word "double") ;; retorna "Data type"
-(type-of-c-reserved-word "if") ;; retorna "Control flow statement"
-(type-of-c-reserved-word "interface") ;; retorna "Class or struct keyword"
-(type-of-c-reserved-word "// Esto es un comentario") ;; retorna "Comment"
-(type-of-c-reserved-word "+") ;; retorna "Operator"
-(type-of-c-reserved-word "try") ;; retorna "Exception handling keyword"
-(type-of-c-reserved-word "[Obsolete]") ;; retorna "Attribute"
-(type-of-c-reserved-word "using") ;; retorna "Miscellaneous keyword"
-(type-of-c-reserved-word "foobar") ;; retorna "Not a C# reserved word"
+
+;;Function that check a list of strings, returgin a string with the html code
+
+(define html-file
+    (lambda(stringLst htmlStr)
+        (cond
+        [(empty? stringLst) (string-append htmlStr "</body> </html>")]
+
+        [else
+        (html-file (rest stringLst) (string-append htmlStr (type-of-c-reserved-word (first stringLst))))])))
+
+;;Funtion that appends the header and footer to the html string
+
+(define finalHtml
+    (lambda (input-file)
+        (string-append html-header (html-file (file->list-of-strings input-file) "") html-footer)))
+
+;;Funtion that writes the html into a file
+(define write-html
+    (lambda (input-file output-file)
+        (write-file output-file (finalHtml input-file))))
+
+(write-html input-file output-file)
 
