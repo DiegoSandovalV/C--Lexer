@@ -4,7 +4,7 @@
 (require 2htdp/batch-io)
 
 ;;Input and Output filenames
-(define input-file "test.cpp")
+(define input-file "test.cs")
 (define output-file "outputFinal.html")
 
 ;;Html header
@@ -12,6 +12,9 @@
 
 ;;Html footer
 (define html-footer "</body> </html>")
+
+;;Hmtl styles
+(define html-styles "<style> span{font-family: sans-serif} .accessModifier{color: brown;} .dataType{color: blue} .controlFlow{color: darkorange;} .class{color: rgb(205, 176, 11);} .comment{color: gray; opacity: 0.5; } .operator{color: red;} .expectionHandling{color: rgb(86, 131, 18);} .attribute{color: indigo;} .miscellaneous{color: rgb(208, 11, 208);} </style>")
 
 
 ;;Funtions that opens an input file, reads it character by character,
@@ -108,7 +111,7 @@
 
 (define finalHtml
     (lambda (input-file)
-        (string-append html-header (html-file (file->list-of-strings input-file) "") html-footer)))
+        (string-append html-header (html-file (file->list-of-strings input-file) "") html-footer html-styles)))
 
 ;;Funtion that writes the html into a file
 (define write-html
