@@ -86,7 +86,7 @@
   [(regexp-match? #px"\n.*" word) (string-append"<br>")]
 
    ;;line comment
-  ;;;  [(regexp-match? #px"//.*" word) (string-append"<span class='comment'>" word "</span>")]
+   [(regexp-match? #px"//.*" word) (string-append"<span class='comment'>" word "</span>")]
 
 
     ;;Operator

@@ -1,6 +1,5 @@
 using System;
 
-//Comentario
 
 class Program
 {
@@ -11,11 +10,11 @@ class Program
         {
             if (numbers[i] % 2 == 0)
             {
-                Console.WriteLine(numbers[i] + " is even");
+                Console.WriteLine(numbers[i] + "even");
             }
             else
             {
-                Console.WriteLine(numbers[i] + " is odd");
+                Console.WriteLine(numbers[i] + "odd");
             }
         }
 
@@ -49,8 +48,10 @@ class MyClass
         }
         finally
         {
-            Console.WriteLine("This is the finally block.");
+            Console.WriteLine("This a block.");
         }
+
+        myObject is MyClass;
     }
 }
 
