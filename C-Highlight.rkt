@@ -83,7 +83,7 @@
    [(regexp-match? #px"\\b(class|struct|interface|enum)\\b" word) (string-append"<span class='class'>" word "</span>")]
 
     ;;line break
-    [(regexp-match? #px"\n.*" word) (string-append"<br>")]
+  [(regexp-match? #px"\n.*" word) (string-append"<br>")]
 
    ;;line comment
   ;;;  [(regexp-match? #px"//.*" word) (string-append"<span class='comment'>" word "</span>")]
@@ -105,6 +105,8 @@
    ;Boolean literals
    [(regexp-match? #px"\\b(true|false)\\b" word) (string-append"<span class='boolean'>" word "</span>")]
 
+    ;;spaces
+    [(regexp-match? #px"\\s+" word) (string-append"<span>\u00A0</span>")]
 
     ;;Not a C# reserved word
    [else (string-append "<span>" word "</span>")]))
