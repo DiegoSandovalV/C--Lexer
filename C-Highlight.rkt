@@ -14,7 +14,7 @@
 (define html-footer "</body> </html>")
 
 ;;Hmtl styles
-(define html-styles "<style> span{font-family: sans-serif} .accessModifier{color: brown;} .dataType{color: blue} .controlFlow{color: darkorange;} .class{color: rgb(205, 176, 11);} .comment{color: gray; opacity: 0.5; } .operator{color: red;} .expectionHandling{color: rgb(86, 131, 18);} .attribute{color: indigo;} .miscellaneous{color: rgb(208, 11, 208);} </style>")
+(define html-styles "<style> span{font-family: sans-serif} .accessModifier{color: brown;} .dataType{color: blue} .controlFlow{color: darkorange;} .class{color: rgb(205, 176, 11);} .comment{color: gray; opacity: 0.5; } .operator{color: red;} .expectionHandling{color: rgb(86, 131, 18);} .attribute{color: indigo;} .miscellaneous{color: rgb(208, 11, 208);}.boolean{color: greenyellow;} </style>")
 
 
 ;;Funtions that opens an input file, reads it character by character,
@@ -24,6 +24,8 @@
     (flatten
      (map string->list
           (read-1strings filename)))))
+          
+
 
 
 ;;function converts a list of characters to a list of strings.
@@ -54,6 +56,8 @@
                                        (append aux (cons (car loc) '()))
                                        result)])))
 
+
+
 ;;function that opens an input file, reads it character by character,
 ;; returning it in a list of string.
 (define file->list-of-strings
@@ -61,6 +65,7 @@
     (reverse
      (list-of-chars->list-of-strings
       (file->list-of-chars input-file) '() '()))))
+
 
 ;;Function that checks if a word is a c# reserved word, returning a span tag with the class of the reserved word
 (define (type-of-c-reserved-word word)
@@ -77,8 +82,12 @@
     ;;Class or struct keyword
    [(regexp-match? #px"\\b(class|struct|interface|enum)\\b" word) (string-append"<span class='class'>" word "</span>")]
 
-   ;;Comment
-   [(regexp-match? #px"//.*|/\\*.*?\\*/" word) (string-append"<span class='comment'>" word "</span>")]
+    ;;line break
+    [(regexp-match? #px"\n.*" word) (string-append"<br>")]
+
+   ;;line comment
+  ;;;  [(regexp-match? #px"//.*" word) (string-append"<span class='comment'>" word "</span>")]
+
 
     ;;Operator
    [(regexp-match?  #px"\\+|\\-|\\*|/|%|\\&|\\||\\^|~|<<|>>|==|!=|<|>|<=|>=|&&|\\|\\||!|\\+=|\\-=|\\*=|/=|%=|\\&=|\\|=|\\^=|<<=|>>=|\\?|:|\\.|->|=>|\\(\\)|\\[\\]|\\{\\}"
@@ -93,8 +102,12 @@
     ;;Miscellaneous keyword
    [(regexp-match? #px"\\b(using|namespace|class|struct|interface|delegate|event|object|typeof|void|checked|unchecked|unsafe|operator|implicit|explicit|this|base|params|in|out|ref|is|as|sizeof|stackalloc|fixed|lock|from|where|select|group|into|orderby|join|let|equals|by)\\b" word) (string-append"<span class='miscellaneous'>" word "</span>")]
 
+   ;Boolean literals
+   [(regexp-match? #px"\\b(true|false)\\b" word) (string-append"<span class='boolean'>" word "</span>")]
+
+
     ;;Not a C# reserved word
-  [else (string-append "<span>" word "</span>")]))
+   [else (string-append "<span>" word "</span>")]))
 
 
 ;;Function that check a list of strings, returgin a string with the html code

@@ -20,6 +20,7 @@ class Program
         }
 
         Console.WriteLine();
+        bool boolExample = true;
 
         string message = "Hello, world";
         for (int i = 0; i < message.Length; i++)
