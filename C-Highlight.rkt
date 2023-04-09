@@ -112,7 +112,7 @@
    [else (string-append "<span>" word "</span>")]))
 
 
-;;Function that check a list of strings, returgin a string with the html code
+;;Function that check a list of strings, returning a string with the html code
 
 (define html-file
     (lambda(stringLst htmlStr)
@@ -122,13 +122,13 @@
         [else
         (html-file (rest stringLst) (string-append htmlStr (type-of-c-reserved-word (first stringLst))))])))
 
-;;Funtion that appends the header and footer to the html string
+;;Function that appends the header, footer and styles to the html string
 
 (define finalHtml
     (lambda (input-file)
         (string-append html-header (html-file (file->list-of-strings input-file) "") html-footer html-styles)))
 
-;;Funtion that writes the html into a file
+;;Function that writes the html into a file
 (define write-html
     (lambda (input-file output-file)
         (write-file output-file (finalHtml input-file))))
