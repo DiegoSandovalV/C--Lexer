@@ -1,4 +1,7 @@
-;;Author: Diego Sandoval
+;;Author:
+;;Diego Sandoval
+;;Yuna Chung
+;;Olimpia Garcia
 
 #lang racket
 (require 2htdp/batch-io)
