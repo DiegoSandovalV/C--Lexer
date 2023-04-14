@@ -1,12 +1,7 @@
-;;Author:
-;;Diego Sandoval
-;;Yuna Chung
-;;Olimpia Garcia
+;;Author: Diego Sandoval
 
 #lang racket
 (require 2htdp/batch-io)
-
-(define start-time (current-inexact-milliseconds))
 
 ;;Input and Output filenames
 (define input-file "test.cs")
@@ -139,7 +134,4 @@
         (write-file output-file (finalHtml input-file))))
 
 (write-html input-file output-file)
-
-(define total-time
-  (/ (- (current-inexact-milliseconds) start-time) 1000))
 
